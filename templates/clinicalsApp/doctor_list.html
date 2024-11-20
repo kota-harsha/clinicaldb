@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor List</title>
+    <link rel="stylesheet" href="{% static "css/clinicals.css" %}"/>
+</head>
+<body>
+    <h1>Doctors</h1>
+    <table>
+        <thead>
+            <th>ID</th>
+            <th>LastName</th>
+            <th>FirstName</th>
+            <th>Department</th>
+            <th>Email</th>
+            <th>DOB</th>
+        </thead>
+        {% for doctor in doctor_list %}
+        <tr>
+            <td>{{doctor.id}}</td>
+            <td>{{doctor.last_name}}</td>
+            <td>{{doctor.first_name}}</td>
+            <td>{{doctor.department}}</td>
+            <td>{{doctor.email}}</td>
+            <td>{{doctor.data_of_birth}}</td>
+            <td><a href="/update/{{doctor.id}}">Update Link</a></td>
+            <td><a href="/delete/{{doctor.id}}">Delete Link</a></td>
+
+            <!--
+            <td><a href="/analyze/{{patient.id}}">Analyze</a></td>
+            <td><a href="/addData/{{patient.id}}">Add Data</a></td>
+            -->
+        </tr>
+        {% endfor %}
+    </table>
+    <br/>
+    <a href="/create-doctor/">Add DoctorPatient</a>
+</body>
+</html>

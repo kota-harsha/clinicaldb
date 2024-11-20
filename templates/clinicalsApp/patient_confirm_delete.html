@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static "css/clinicals.css" %}">
+</head>
+<body>
+    <h2>Delete Patient: {{patient.firstname}}?</h2>
+    <form method='post'>
+        <input type="submit" value="confirm">
+        <a href='/'>Go Back</a>
+        {% csrf_token %}
+    </form>
+</body>
+</html>

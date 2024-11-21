@@ -29,3 +29,10 @@ class ClinicalData(models.Model):
     componentValue = models.CharField(max_length=20)
     measuredDataTime = models.DateTimeField(auto_now_add=True)
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+
+class Visit(models.Model):
+    doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE, related_name="visits")
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name="visits")
+    date = models.DateField()
+    time = models.TimeField()
+    notes = models.TextField(blank=True, null=True)

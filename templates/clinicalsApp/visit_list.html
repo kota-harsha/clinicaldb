@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visit List</title>
+    <link rel="stylesheet" href="{% static "css/clinicals.css" %}"/>
+</head>
+<body>
+    <h1>Visits</h1>
+    <table>
+        <thead>
+            <th>Patient Name</th>
+            <th>Doctor Name</th>
+            <th>Visit Date</th>
+            <th>Time</th>
+            <th>Notes</th>
+        </thead>
+        {% for visit in object_list %}
+            <tr>
+                <td>{{ visit.doctor.first_name }} {{ visit.doctor.last_name }}</td>
+                <td>{{ visit.patient.firstname }} {{ visit.patient.lastname }}</td>
+                <td>{{ visit.date }}</td>
+                <td>{{ visit.time }}</td>
+                <td>{{ visit.notes|default:"No notes" }}</td>
+                <td><a href="/update-visit/{{visit.id}}">Update Link</a></td>
+                <td><a href="/delete-visit/{{visit.id}}">Delete Link</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+    <br/>
+    <a href="/create-visit/">Add Visit</a>
+    <a href="/">Home</a>
+</body>
+</html>

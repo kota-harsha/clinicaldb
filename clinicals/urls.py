@@ -35,6 +35,10 @@ urlpatterns = [
     path('addData/<int:pk>/', views.addData),
     path('analyze/<int:pk>', views.analyze, name = 'analyze'),
     path('update-clinical-data/<int:pk>/', views.ClinicalDataUpdateView.as_view(), name='update_clinical_data'),
-    path('delete-clinical-data/<int:pk>/', views.ClinicalDataDeleteView.as_view(), name='delete_clinical_data')
+    path('delete-clinical-data/<int:pk>/', views.ClinicalDataDeleteView.as_view(), name='delete_clinical_data'),
 
+    path('visit/', views.VisitListView.as_view(), name='visit_list'),
+    path('create-visit/', views.VisitCreateView.as_view()),
+    path('update-visit/<int:pk>', views.VisitUpdateView.as_view()),
+    path('delete-visit/<int:pk>', views.VisitDeleteView.as_view()),
 ]

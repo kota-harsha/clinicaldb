@@ -1,5 +1,5 @@
 from django import forms 
-from clinicalsApp.models import Patient, ClinicalData, Doctor
+from clinicalsApp.models import Patient, ClinicalData, Doctor, Visit
 
 class PatientForm(forms.ModelForm):
     class Meta:
@@ -14,4 +14,9 @@ class DoctorForm(forms.ModelForm):
 class ClinicalDataForm(forms.ModelForm):
     class Meta:
         model = ClinicalData
+        fields = '__all__'
+
+class VisitForm(forms.ModelForm):
+    class Meta:
+        model = Visit
         fields = '__all__'

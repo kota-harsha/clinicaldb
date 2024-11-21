@@ -81,24 +81,6 @@ def analyze(request, **kwargs):
         responseData.append(entry)
     return render(request, 'clinicalsApp/generate_report.html', {'data': responseData})
 
-
-
-
-
-def execute_raw_sql(query, params=None):
-    with connection.cursor() as cursor:
-        cursor.execute(query, params or [])
-        if query.strip().lower().startswith('select'):
-            return dictfetchall(cursor)
-    return None
-
-def dictfetchall(cursor):
-    """Return all rows from a cursor as a dict"""
-    columns = [col[0] for col in cursor.description]
-    return [dict(zip(columns, row)) for row in cursor.fetchall()]
-
-
-
 class VisitListView(ListView):
     model = Visit
     template_name = 'clinicalsApp/visit_list.html'
@@ -119,3 +101,54 @@ class VisitUpdateView(UpdateView):
 class VisitDeleteView(DeleteView):
     model = Visit
     success_url = reverse_lazy('visit_list')
+
+def execute_raw_sql(query, params=None):
+    with connection.cursor() as cursor:
+        cursor.execute(query, params or [])
+        if query.strip().lower().startswith('select'):
+            return dictfetchall(cursor)
+    return None
+
+def dictfetchall(cursor):
+    """Return all rows from a cursor as a dict"""
+    columns = [col[0] for col in cursor.description]
+    return [dict(zip(columns, row)) for row in cursor.fetchall()]
+
+
+
+@csrf_exempt
+def vulnerable_select(request):
+    if request.method == 'POST':
+        name = request.POST.get('firstName', '')
+        with connection.cursor() as cursor:
+            # Vulnerable query - for demonstration only
+            query = f"SELECT id, firstName, lastName, age, address FROM clinicalsapp_patient WHERE firstName = '{name}'"
+            cursor.execute(query)
+            columns = [col[0] for col in cursor.description]
+            patients = [dict(zip(columns, row)) for row in cursor.fetchall()]
+        return JsonResponse({'patients': patients})
+    return render(request, 'clinicalsApp/vulnerable_select.html')
+
+@csrf_exempt
+def vulnerable_update(request):
+    if request.method == 'POST':
+        patient_id = request.POST.get('id', '')
+        new_address = request.POST.get('address', '')
+        with connection.cursor() as cursor:
+            # Vulnerable query - for demonstration only
+            query = f"UPDATE clinicalsapp_patient SET address = '{new_address}' WHERE id = {patient_id}"
+            cursor.execute(query)
+        return JsonResponse({'status': 'updated'})
+    return render(request, 'clinicalsApp/vulnerable_update.html')
+
+def secure_select(request):
+    if request.method == 'POST':
+        name = request.POST.get('firstName', '')
+        with connection.cursor() as cursor:
+            # Secure query using prepared statement
+            query = "SELECT id, firstName, lastName, age, address FROM clinicalsapp_patient WHERE firstName = %s"
+            cursor.execute(query, [name])
+            columns = [col[0] for col in cursor.description]
+            patients = [dict(zip(columns, row)) for row in cursor.fetchall()]
+        return JsonResponse({'patients': patients})
+    return render(request, 'clinicalsApp/secure_select.html')

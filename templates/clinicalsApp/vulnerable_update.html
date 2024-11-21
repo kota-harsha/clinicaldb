@@ -1,0 +1,35 @@
+{% extends 'clinicalsApp/base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h2>Vulnerable Patient Update</h2>
+    <p class="text-danger">Warning: This form is intentionally vulnerable to SQL injection</p>
+    <form method="POST" id="updateForm">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="id">Patient ID:</label>
+            <input type="text" class="form-control" id="id" name="id" placeholder="Enter patient ID">
+        </div>
+        <div class="form-group mt-3">
+            <label for="address">New Address:</label>
+            <input type="text" class="form-control" id="address" name="address" placeholder="Enter new address">
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Update</button>
+    </form>
+    <div id="updateResult" class="mt-4"></div>
+</div>
+
+<script>
+document.getElementById('updateForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    fetch('/vulnerable/update/', {
+        method: 'POST',
+        body: new FormData(this)
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById('updateResult').innerHTML = 
+            '<div class="alert alert-success">Update status: ' + data.status + '</div>';
+    });
+});
+</script>
+{% endblock %}

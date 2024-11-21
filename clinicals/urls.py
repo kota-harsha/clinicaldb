@@ -41,4 +41,8 @@ urlpatterns = [
     path('create-visit/', views.VisitCreateView.as_view()),
     path('update-visit/<int:pk>', views.VisitUpdateView.as_view()),
     path('delete-visit/<int:pk>', views.VisitDeleteView.as_view()),
+
+    path('vulnerable/select/', views.vulnerable_select, name='vulnerable_select'),
+    path('vulnerable/update/', views.vulnerable_update, name='vulnerable_update'),
+    path('secure/select/', views.secure_select, name='secure_select'),
 ]

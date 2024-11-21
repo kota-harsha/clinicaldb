@@ -1,0 +1,32 @@
+{% extends 'clinicalsApp/base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h2>Vulnerable Patient Search</h2>
+    <p class="text-danger">Warning: This form is intentionally vulnerable to SQL injection</p>
+    <form method="POST" id="searchForm">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="firstName">First Name:</label>
+            <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Enter first name">
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Search</button>
+    </form>
+    <div id="results" class="mt-4"></div>
+</div>
+
+<script>
+document.getElementById('searchForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    fetch('/vulnerable/select/', {
+        method: 'POST',
+        body: new FormData(this)
+    })
+    .then(response => response.json())
+    .then(data => {
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.innerHTML = '<h3>Results:</h3>' + 
+            JSON.stringify(data.patients, null, 2);
+    });
+});
+</script>
+{% endblock %}

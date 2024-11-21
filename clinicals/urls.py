@@ -21,11 +21,11 @@ from clinicalsApp import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index),
+
     path('patient/', views.PatientListView.as_view(), name='patient'),
     path('create-patient/', views.PatientCreateView.as_view()),
     path('update-patient/<int:pk>', views.PatientUpdateView.as_view()),
     path('delete-patient/<int:pk>', views.PatientDeleteView.as_view()),
-
 
     path('doctor/', views.DoctorListView.as_view(), name='doctor'),
     path('create-doctor/', views.DoctorCreateView.as_view()),
@@ -33,6 +33,8 @@ urlpatterns = [
     path('delete-doctor/<int:pk>', views.DoctorDeleteView.as_view()),
 
     path('addData/<int:pk>/', views.addData),
-    path('analyze/<int:pk>', views.analyze),
+    path('analyze/<int:pk>', views.analyze, name = 'analyze'),
+    path('update-clinical-data/<int:pk>/', views.ClinicalDataUpdateView.as_view(), name='update_clinical_data'),
+    path('delete-clinical-data/<int:pk>/', views.ClinicalDataDeleteView.as_view(), name='delete_clinical_data')
 
 ]

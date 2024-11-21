@@ -8,11 +8,6 @@
     <link rel="stylesheet" href="{% static "css/clinicals.css" %}">
 </head>
 <body>
-    <h2>Patient Details</h2>
-    First Name : {{patient.firstname}}
-    Last Name : {{patient.lastname}}
-    Age : {{patient.age}}
-
     <h2>Patient Clinical Data</h2>
     <form method="post">
         <table>
@@ -20,6 +15,7 @@
         </table>
         {% csrf_token %}
         <input type="submit" value="Save">
+        <a href="/patient/">Back</a>
     </form>
 </body>
 </html>

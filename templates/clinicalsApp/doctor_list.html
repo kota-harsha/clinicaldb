@@ -26,17 +26,13 @@
             <td>{{doctor.department}}</td>
             <td>{{doctor.email}}</td>
             <td>{{doctor.data_of_birth}}</td>
-            <td><a href="/update/{{doctor.id}}">Update Link</a></td>
-            <td><a href="/delete/{{doctor.id}}">Delete Link</a></td>
-
-            <!--
-            <td><a href="/analyze/{{patient.id}}">Analyze</a></td>
-            <td><a href="/addData/{{patient.id}}">Add Data</a></td>
-            -->
+            <td><a href="/update-doctor/{{doctor.id}}">Update Link</a></td>
+            <td><a href="/delete-doctor/{{doctor.id}}">Delete Link</a></td>
         </tr>
         {% endfor %}
     </table>
     <br/>
-    <a href="/create-doctor/">Add DoctorPatient</a>
+    <a href="/create-doctor/">Add Doctor</a>
+    <a href="/">Home</a>
 </body>
 </html>

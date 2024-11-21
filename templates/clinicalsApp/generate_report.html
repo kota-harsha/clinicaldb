@@ -20,9 +20,11 @@
                 <td>{{entry.componentName}}</td>
                 <td>{{entry.componentValue}}</td>
                 <td>{{entry.measuredDataTime}}</td>
+                <td><a href="/update-clinical-data/{{entry.id}}">Update</a></td>
+                <td><a href="/delete-clinical-data/{{entry.id}}">Delete</a></td>
             </tr>
         {% endfor %}
     </table>
-    <a href="/">Home</a>
+    <a href="/patient/">Back</a>
 </body>
 </html>

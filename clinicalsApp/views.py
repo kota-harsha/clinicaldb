@@ -3,6 +3,7 @@ from clinicalsApp.models import Patient, ClinicalData, Doctor
 from clinicalsApp.forms import ClinicalDataForm
 from django.views.generic import CreateView, UpdateView, ListView, DeleteView
 from django.urls import reverse_lazy
+from django.http import HttpResponseRedirect
 
 # Create your views here.
 
@@ -42,15 +43,27 @@ class DoctorDeleteView(DeleteView):
     success_url = reverse_lazy('doctor')
 
 
-
 def index(request):
     return render(request, 'clinicalsApp/index.html')
 
+class ClinicalDataDeleteView(DeleteView):
+    model = ClinicalData
+    # template_name = 'clinicalsApp/delete_clinical_data.html'
+    success_url = reverse_lazy('analyze')  
 
+    def get_success_url(self):
+        # Redirect back to the analyze page for the specific patient
+        return reverse_lazy('analyze', kwargs={'pk': self.object.patient.id})
+    
+class ClinicalDataUpdateView(UpdateView):
+    model = ClinicalData
+    fields = '__all__'
+    template_name = 'clinicalsApp/clinical_data_form.html'
+    success_url = reverse_lazy('analyze')  # Adjust to redirect to the analyze page
 
-
-
-
+    def get_success_url(self):
+        # Redirect back to the analyze page for the specific patient
+        return reverse_lazy('analyze', kwargs={'pk': self.object.patient.id})
 
 # **kwargs gets the varibale value from the url that requests for this view
 def addData(request, **kwargs):
@@ -61,20 +74,11 @@ def addData(request, **kwargs):
         if form.is_valid():
             form.save()
         return redirect('/')
-    return render(request, 'clinicalsApp/clinical_data_form.html', {'form':form, 'patient':patient})
+    return render(request, 'clinicalsApp/clinicaldata_form.html', {'form':form, 'patient':patient})
 
 def analyze(request, **kwargs):
     data = ClinicalData.objects.filter(patient_id=kwargs['pk'])
     responseData = []
     for entry in data:
-        if entry.componentName=='hw':
-            haw = entry.componentValue.split('/')
-            if len(haw) > 1:
-                heightinmeter=float(haw[0]) * 0.4536
-                BMI = (float(haw[1])) / (heightinmeter * heightinmeter)
-                bmiEntry = ClinicalData()
-                bmiEntry.componentName = 'BMI'
-                bmiEntry.componentValue = BMI
-                responseData.append(bmiEntry)
         responseData.append(entry)
     return render(request, 'clinicalsApp/generate_report.html', {'data': responseData})

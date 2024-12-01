@@ -75,12 +75,13 @@ WSGI_APPLICATION = 'clinicals.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# Change other database components based on your setup
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'clinicalsdb',
-        'USER': 'root',
-        'PASSWORD': 'admin123',
+        'USER': 'ADD YOUR USERNAME',
+        'PASSWORD': 'ADD YOUR PASSWORD',
         'HOST':'localhost',
         'PORT':'3306'
     }
